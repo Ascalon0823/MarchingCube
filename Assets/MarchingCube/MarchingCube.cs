@@ -58,7 +58,7 @@ public class MarchingCube
             var config = 0;
             for (var i = 0; i < 8; i++)
             {
-                if (values[i] >= isoLevel) config |= 1 << i;
+                if (values[i] < isoLevel) config |= 1 << i;
             }
 
             if (edgeTable[config] == 0)
@@ -104,23 +104,20 @@ public class MarchingCube
                 vertlist[11] =
                     VertexInterp(isoLevel, verts[3], verts[7], values[3],values[7]);
             
-            for (var i=0;triTable[config][i]!=-1;i+=3) {
+            for (var i=0;triTable[config][i]!=-1;i++) {
                 result.Triangles.Add(result.Vertices.Count);
                 result.Vertices.Add(vertlist[triTable[config][i]]);
-                result.Triangles.Add(result.Vertices.Count);
-                result.Vertices.Add(vertlist[triTable[config][i+2]]);
-                result.Triangles.Add(result.Vertices.Count);
-                result.Vertices.Add(vertlist[triTable[config][i+1]]);
             }
         }
         return result;
     }
     Vector3 VertexInterp(float isolevel,Vector3 p1,Vector3 p2,float valp1,float valp2)
     {
-        return (p1 + p2) / 2f;
+        //return (p1 + p2) / 2f;
+      
+        return Vector3.Lerp(p1, p2, (isolevel - valp1) / (valp2 - valp1));
         float mu;
         Vector3 p;
-
         if (Mathf.Abs(isolevel-valp1) < 0.00001)
             return(p1);
         if (Mathf.Abs(isolevel-valp2) < 0.00001)

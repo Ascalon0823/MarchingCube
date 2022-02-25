@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.Mathematics;
+using UnityEngine.Rendering;
 
 public class MarchingCubeTester : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class MarchingCubeTester : MonoBehaviour
         boxes = new List<Bounds>();
         var data = marchingCube.March(from, to, cubeSize, (x) =>
         {
-            var mul = (15f - x.y)/10f;
+            var mul = 1f;
             x = x/10f* scale;
             float xy = Mathf.PerlinNoise(xOrg + x.x, yOrg + x.y);
             float xz = Mathf.PerlinNoise(xOrg + x.x, yOrg + x.z);
@@ -47,6 +48,7 @@ public class MarchingCubeTester : MonoBehaviour
 
         mesh = new Mesh()
         {
+            indexFormat = IndexFormat.UInt32,
             vertices = data.Vertices.ToArray(),
             triangles = data.Triangles.ToArray()
         };
