@@ -35,7 +35,7 @@ public class MarchingCubeTester : MonoBehaviour
         var data = marchingCube.March(from, to, cubeSize, (x) =>
         {
             var mul = 1f;
-            x = x/10f* scale;
+            x = x* scale;
             float xy = Mathf.PerlinNoise(xOrg + x.x, yOrg + x.y);
             float xz = Mathf.PerlinNoise(xOrg + x.x, yOrg + x.z);
             float yz = Mathf.PerlinNoise(xOrg + x.y, yOrg + x.z);
